@@ -235,7 +235,7 @@ public class EmmaBuilderTrendChart extends DashboardPortlet {
   /**
    * Descriptor that will be shown on Dashboard Portlets view.
    */
-  @Extension
+  @Extension(optional = true)
   public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
 
     @Override

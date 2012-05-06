@@ -76,7 +76,7 @@ public class EmmaBuilderGrid extends DashboardPortlet {
   /**
    * Descriptor that will be shown on Dashboard Portlets view.
    */
-  @Extension
+  @Extension(optional = true)
   public static class EmmaGridDescriptor extends Descriptor<DashboardPortlet> {
 
     @Override

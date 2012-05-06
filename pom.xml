@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>emma</artifactId>
-  <version>1.27-SNAPSHOT</version>
+  <version>1.27</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Emma plugin</name>
@@ -118,7 +118,7 @@
                   </goals>
                 </pluginExecutionFilter>
                 <action>
-                  <ignore></ignore>
+                  <ignore />
                 </action>
               </pluginExecution>
               <pluginExecution>
@@ -135,7 +135,7 @@
                   </goals>
                 </pluginExecutionFilter>
                 <action>
-                  <ignore></ignore>
+                  <ignore />
                 </action>
               </pluginExecution>
               <pluginExecution>
@@ -151,7 +151,7 @@
                   </goals>
                 </pluginExecutionFilter>
                 <action>
-                  <ignore></ignore>
+                  <ignore />
                 </action>
               </pluginExecution>
               <pluginExecution>
@@ -166,7 +166,7 @@
                   </goals>
                 </pluginExecutionFilter>
                 <action>
-                  <execute/>
+                  <execute />
                 </action>
               </pluginExecution>
               <pluginExecution>
@@ -181,7 +181,7 @@
                   </goals>
                 </pluginExecutionFilter>
                 <action>
-                  <ignore></ignore>
+                  <ignore />
                 </action>
               </pluginExecution>
             </pluginExecutions>

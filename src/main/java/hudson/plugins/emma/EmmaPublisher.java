@@ -30,6 +30,7 @@ import java.util.Arrays;
  * @author Kohsuke Kawaguchi
  */
 public class EmmaPublisher extends Recorder {
+
     /**
      * Relative path to the Emma XML file inside the workspace.
      */
@@ -46,59 +47,57 @@ public class EmmaPublisher extends Recorder {
      * {@link hudson.model.HealthReport} thresholds to apply.
      */
     public EmmaHealthReportThresholds healthReports = new EmmaHealthReportThresholds();
-    
+
     /**
-     * look for emma reports based in the configured parameter includes.
-     * 'includes' is 
-     *   - an Ant-style pattern
-     *   - a list of files and folders separated by the characters ;:,  
+     * look for emma reports based in the configured parameter includes. 'includes' is - an Ant-style pattern - a list
+     * of files and folders separated by the characters ;:,
      */
     protected static FilePath[] locateCoverageReports(FilePath workspace, String includes) throws IOException, InterruptedException {
 
-    	// First use ant-style pattern
-    	try {
-        	FilePath[] ret = workspace.list(includes);
-            if (ret.length > 0) { 
-            	return ret;
+        // First use ant-style pattern
+        try {
+            FilePath[] ret = workspace.list(includes);
+            if (ret.length > 0) {
+                return ret;
             }
         } catch (Exception e) {
         }
 
         // If it fails, do a legacy search
         ArrayList<FilePath> files = new ArrayList<FilePath>();
-		String parts[] = includes.split("\\s*[;:,]+\\s*");
-		for (String path : parts) {
-			FilePath src = workspace.child(path);
-			if (src.exists()) {
-				if (src.isDirectory()) {
-					files.addAll(Arrays.asList(src.list("**/coverage*.xml")));
-				} else {
-					files.add(src);
-				}
-			}
-		}
-		return files.toArray(new FilePath[files.size()]);
-	}
-	
-    /**
-     * save emma reports from the workspace to build folder  
-     */
-	protected static void saveCoverageReports(FilePath folder, FilePath[] files) throws IOException, InterruptedException {
-		folder.mkdirs();
-		for (int i = 0; i < files.length; i++) {
-			String name = "coverage" + (i > 0 ? i : "") + ".xml";
-			FilePath src = files[i];
-			FilePath dst = folder.child(name);
-			src.copyTo(dst);
-		}
-	}
+        String parts[] = includes.split("\\s*[;:,]+\\s*");
+        for (String path : parts) {
+            FilePath src = workspace.child(path);
+            if (src.exists()) {
+                if (src.isDirectory()) {
+                    files.addAll(Arrays.asList(src.list("**/coverage*.xml")));
+                } else {
+                    files.add(src);
+                }
+            }
+        }
+        return files.toArray(new FilePath[files.size()]);
+    }
 
-    public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+    /**
+     * save emma reports from the workspace to build folder
+     */
+    protected static void saveCoverageReports(FilePath folder, FilePath[] files) throws IOException, InterruptedException {
+        folder.mkdirs();
+        for (int i = 0; i < files.length; i++) {
+            String name = "coverage" + (i > 0 ? i : "") + ".xml";
+            FilePath src = files[i];
+            FilePath dst = folder.child(name);
+            src.copyTo(dst);
+        }
+    }
+
+    public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         EnvVars env = build.getEnvironment(listener);
         env.overrideAll(build.getBuildVariables());
-        
+
         includes = env.expand(includes);
-        
+
         final PrintStream logger = listener.getLogger();
 
         FilePath[] reports;
@@ -106,30 +105,32 @@ public class EmmaPublisher extends Recorder {
             logger.println("Emma: looking for coverage reports in the entire workspace: " + build.getWorkspace().getRemote());
             reports = locateCoverageReports(build.getWorkspace(), "**/emma/coverage.xml");
         } else {
-            logger.println("Emma: looking for coverage reports in the provided path: " + includes );
+            logger.println("Emma: looking for coverage reports in the provided path: " + includes);
             reports = locateCoverageReports(build.getWorkspace(), includes);
         }
-        
+
         if (reports.length == 0) {
-            if(build.getResult().isWorseThan(Result.UNSTABLE))
+            if (build.getResult().isWorseThan(Result.UNSTABLE)) {
                 return true;
-            
+            }
+
             logger.println("Emma: no coverage files found in workspace. Was any report generated?");
             build.setResult(Result.FAILURE);
             return true;
         } else {
-        	String found = "";
-        	for (FilePath f: reports) 
-        		found += "\n          " + f.getRemote();
-            logger.println("Emma: found " + reports.length  + " report files: " + found );
+            String found = "";
+            for (FilePath f : reports) {
+                found += "\n          " + f.getRemote();
+            }
+            logger.println("Emma: found " + reports.length + " report files: " + found);
         }
-        
+
         FilePath emmafolder = new FilePath(getEmmaReport(build));
         saveCoverageReports(emmafolder, reports);
-        logger.println("Emma: stored " + reports.length + " report files in the build folder: "+ emmafolder);
-        
+        logger.println("Emma: stored " + reports.length + " report files in the build folder: " + emmafolder);
+
         final EmmaBuildAction action = EmmaBuildAction.load(build, rule, healthReports, reports);
-        
+
         logger.println("Emma: " + action.getBuildHealth().getDescription());
 
         build.getActions().add(action);
@@ -158,7 +159,7 @@ public class EmmaPublisher extends Recorder {
     /**
      * Gets the directory to store report files
      */
-    static File getEmmaReport(AbstractBuild<?,?> build) {
+    static File getEmmaReport(AbstractBuild<?, ?> build) {
         return new File(build.getRootDir(), "emma");
     }
 
@@ -171,6 +172,7 @@ public class EmmaPublisher extends Recorder {
     public static final BuildStepDescriptor<Publisher> DESCRIPTOR = new DescriptorImpl();
 
     public static class DescriptorImpl extends BuildStepDescriptor<Publisher> {
+
         public DescriptorImpl() {
             super(EmmaPublisher.class);
         }

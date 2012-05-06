@@ -4,6 +4,9 @@ import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
+import hudson.maven.ExecutedMojo;
+import hudson.maven.MavenBuild;
+import hudson.maven.MavenModuleSetBuild;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
@@ -94,12 +97,26 @@ public class EmmaPublisher extends Recorder {
 
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+        final PrintStream logger = listener.getLogger();
+        
+        // Make sure Emma actually ran
+        if (build instanceof MavenBuild) {
+            MavenBuild mavenBuild = (MavenBuild) build;
+            if (!didEmmaRun(mavenBuild)) {
+                listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
+                return true;
+            }
+        } else if (build instanceof MavenModuleSetBuild) {
+            MavenModuleSetBuild moduleSetBuild = (MavenModuleSetBuild) build;
+            if (!didEmmaRun(moduleSetBuild.getModuleLastBuilds().values())) {
+                listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
+                return true;
+            }
+        }
+                
         EnvVars env = build.getEnvironment(listener);
         env.overrideAll(build.getBuildVariables());
-
         includes = env.expand(includes);
-
-        final PrintStream logger = listener.getLogger();
 
         FilePath[] reports;
         if (includes == null || includes.trim().length() == 0) {
@@ -170,6 +187,24 @@ public class EmmaPublisher extends Recorder {
         return DESCRIPTOR;
     }
 
+    private boolean didEmmaRun(Iterable<MavenBuild> mavenBuilds) {
+        for (MavenBuild build : mavenBuilds) {
+            if (didEmmaRun(build)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean didEmmaRun(MavenBuild mavenBuild) {
+        for (ExecutedMojo mojo : mavenBuild.getExecutedMojos()) {
+            if ("org.codehaus.mojo".equals(mojo.groupId) && "emma-maven-plugin".equals(mojo.artifactId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @Extension
     public static final BuildStepDescriptor<Publisher> DESCRIPTOR = new DescriptorImpl();
 

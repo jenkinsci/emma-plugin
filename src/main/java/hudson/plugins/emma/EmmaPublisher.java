@@ -92,6 +92,7 @@ public class EmmaPublisher extends Recorder {
         }
     }
 
+    @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         EnvVars env = build.getEnvironment(listener);
         env.overrideAll(build.getBuildVariables());
@@ -152,6 +153,7 @@ public class EmmaPublisher extends Recorder {
         return new EmmaProjectAction(project);
     }
 
+    @Override
     public BuildStepMonitor getRequiredMonitorService() {
         return BuildStepMonitor.BUILD;
     }
@@ -177,10 +179,12 @@ public class EmmaPublisher extends Recorder {
             super(EmmaPublisher.class);
         }
 
+        @Override
         public String getDisplayName() {
             return Messages.EmmaPublisher_DisplayName();
         }
 
+        @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             return true;
         }

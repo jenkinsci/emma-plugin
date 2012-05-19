@@ -38,6 +38,8 @@ public class EmmaPublisher extends Recorder {
      * Relative path to the Emma XML file inside the workspace.
      */
     public String includes;
+    
+    public boolean useThreshold;
 
     /**
      * Rule to be enforced. Can be null.
@@ -112,9 +114,9 @@ public class EmmaPublisher extends Recorder {
                 listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
                 return true;
             }
-        }
-                
+        }       
         EnvVars env = build.getEnvironment(listener);
+        
         env.overrideAll(build.getBuildVariables());
         includes = env.expand(includes);
 
@@ -150,7 +152,7 @@ public class EmmaPublisher extends Recorder {
         final EmmaBuildAction action = EmmaBuildAction.load(build, rule, healthReports, reports);
 
         logger.println("Emma: " + action.getBuildHealth().getDescription());
-
+        
         build.getActions().add(action);
 
         final CoverageReport result = action.getResult();
@@ -161,9 +163,52 @@ public class EmmaPublisher extends Recorder {
             logger.println("Emma: code coverage enforcement failed. Setting Build to unstable.");
             build.setResult(Result.UNSTABLE);
         }
+        
+        checkThreshold(build, logger, env, action);
 
         return true;
     }
+
+	private void checkThreshold(AbstractBuild<?, ?> build,
+			final PrintStream logger, EnvVars env, final EmmaBuildAction action) {
+		if (useThreshold) {
+        	if (isMethodCoverageOk(action) 
+        			|| isClassCoverageOk(action) 
+        			|| isBlockCoverageOk(action)
+        			|| isLineCoverageOk(action)){
+        		logger.println("Emma: Build failed due to coverage percentage threshold exceeds ");
+        		build.setResult(Result.FAILURE);
+        	} 
+        	if (isClassCoverageOk(action)) {
+        		logger.println("Emma: Classes coverage "+action.getClassCoverage().getPercentage()+"% < "+healthReports.getMinClass()+"%.");
+        	}
+        	if (isMethodCoverageOk(action)) {
+        		logger.println("Emma: Methods coverage "+action.getMethodCoverage().getPercentage()+"% < "+healthReports.getMinMethod()+"%.");
+			}
+        	if (isBlockCoverageOk(action)) {
+        		logger.println("Emma: Blocks coverage "+action.getBlockCoverage().getPercentage()+"% < "+healthReports.getMinBlock()+"%.");
+			}
+        	if (isLineCoverageOk(action)) {
+        		logger.println("Emma: Line coverage "+action.getLineCoverage().getPercentage()+"% < "+healthReports.getMinLine()+"%.");
+			}
+		}
+	}
+
+	private boolean isLineCoverageOk(final EmmaBuildAction action) {
+		return action.getLineCoverage().getPercentage() < healthReports.getMinLine();
+	}
+
+	private boolean isBlockCoverageOk(final EmmaBuildAction action) {
+		return action.getBlockCoverage().getPercentage() < healthReports.getMinBlock();
+	}
+
+	private boolean isClassCoverageOk(final EmmaBuildAction action) {
+		return action.getClassCoverage().getPercentage() < healthReports.getMinClass();
+	}
+
+	private boolean isMethodCoverageOk(final EmmaBuildAction action) {
+		return action.getMethodCoverage().getPercentage() < healthReports.getMinMethod();
+	}
 
     @Override
     public Action getProjectAction(AbstractProject<?, ?> project) {

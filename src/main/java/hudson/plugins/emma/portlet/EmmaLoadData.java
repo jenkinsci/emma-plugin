@@ -199,8 +199,7 @@ public final class EmmaLoadData {
   }
 
   /**
-   * Summarize the last coverage results of all jobs. If a job doesn't
-   * include any coverage, add zero.
+   * Summarize the last coverage results of all jobs, which have coverage.
    *
    * @param jobs
    *          a final Collection of Job objects
@@ -222,7 +221,9 @@ public final class EmmaLoadData {
 
         EmmaBuildAction emmaAction = job.getLastSuccessfulBuild().getAction(EmmaBuildAction.class);
 
-        if (null != emmaAction) {
+        if (null == emmaAction) {
+            continue;
+        } else {
           if (null != emmaAction.getBlockCoverage()) {
             blockCoverage = emmaAction.getBlockCoverage().getPercentageFloat();
             BigDecimal bigBlockCoverage = new BigDecimal(blockCoverage);

@@ -31,35 +31,35 @@
     <j:new className="java.text.DecimalFormat" var="format">
         <j:arg type="java.lang.String" value="0%" />
     </j:new>
-    <dp:decorate portlet="${it}" width="9">
+    <dp:decorate portlet="${it}" width="5">
       <tr>
         <td>
           <table class="pane sortable" id="warnings-table" style="margin-top: 0px;">
             <tr>
-              <td class="pane-header" style="vertical-align: middle">${%Job}</td>
-              <td class="pane-header" colspan="2">% ${%Class}</td>
-              <td class="pane-header" colspan="2">% ${%Block}</td>
-              <td class="pane-header" colspan="2">% ${%Method}</td>
-              <td class="pane-header" colspan="2">% ${%Line}</td>
+              <td class="pane-header" style="text-align: center;" initialSortDir="down">${%Job}</td>
+              <td class="pane-header" style="text-align: center;">${%Class}</td>
+              <td class="pane-header" style="text-align: center;">${%Block}</td>
+              <td class="pane-header" style="text-align: center;">${%Method}</td>
+              <td class="pane-header" style="text-align: center;">${%Line}</td>
             </tr>
             <j:set var="summary" value="${it.getEmmaCoverageResultSummary(jobs)}"/>
             <j:forEach var="tr" items="${summary.emmaCoverageResults}">
-            <tr>
-                <td>
+            <tr style="border-top: 0px; border: 1px #bbb solid;">
+                <td class="pane">
                     <dp:jobLink job="${tr.job}"/>
                 </td>
-                <td colspan="2" data="${tr.classCoverage}">${tr.classCoverage}%</td>
-                <td colspan="2" data="${tr.blockCoverage}">${tr.blockCoverage}%</td>
-                <td colspan="2" data="${tr.methodCoverage}">${tr.methodCoverage}%</td>
-                <td colspan="2" data="${tr.lineCoverage}">${tr.lineCoverage}%</td>
+                <td class="pane" style="text-align: right;" data="${tr.classCoverage}">${tr.classCoverage}%</td>
+                <td class="pane" style="text-align: right;" data="${tr.blockCoverage}">${tr.blockCoverage}%</td>
+                <td class="pane" style="text-align: right;" data="${tr.methodCoverage}">${tr.methodCoverage}%</td>
+                <td class="pane" style="text-align: right;" data="${tr.lineCoverage}">${tr.lineCoverage}%</td>
             </tr>
             </j:forEach>
             <tr class="sortbottom">
-              <td class="pane-header" >${%Total}</td>
-              <td class="pane-header" colspan="2">${summary.totalClassCoverage}%</td>
-              <td class="pane-header" colspan="2">${summary.totalBlockCoverage}%</td>
-              <td class="pane-header" colspan="2">${summary.totalMethodCoverage}%</td>
-              <td class="pane-header" colspan="2">${summary.totalLineCoverage}%</td>
+              <td class="pane-header">${%Total}</td>
+              <td class="pane-header" style="text-align: right;">${summary.totalClassCoverage}%</td>
+              <td class="pane-header" style="text-align: right;">${summary.totalBlockCoverage}%</td>
+              <td class="pane-header" style="text-align: right;">${summary.totalMethodCoverage}%</td>
+              <td class="pane-header" style="text-align: right;">${summary.totalLineCoverage}%</td>
             </tr>
           </table>
         </td>

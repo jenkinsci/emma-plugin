@@ -48,18 +48,18 @@
                 <td>
                     <dp:jobLink job="${tr.job}"/>
                 </td>
-                <td colspan="2">${tr.classCoverage}</td>
-                <td colspan="2">${tr.blockCoverage}</td>
-                <td colspan="2">${tr.methodCoverage}</td>
-                <td colspan="2">${tr.lineCoverage}</td>
+                <td colspan="2" data="${tr.classCoverage}">${tr.classCoverage}%</td>
+                <td colspan="2" data="${tr.blockCoverage}">${tr.blockCoverage}%</td>
+                <td colspan="2" data="${tr.methodCoverage}">${tr.methodCoverage}%</td>
+                <td colspan="2" data="${tr.lineCoverage}">${tr.lineCoverage}%</td>
             </tr>
             </j:forEach>
             <tr class="sortbottom">
               <td class="pane-header" >${%Total}</td>
-              <td class="pane-header" colspan="2">${summary.totalClassCoverage}</td>
-              <td class="pane-header" colspan="2">${summary.totalBlockCoverage}</td>
-              <td class="pane-header" colspan="2">${summary.totalMethodCoverage}</td>
-              <td class="pane-header" colspan="2">${summary.totalLineCoverage}</td>
+              <td class="pane-header" colspan="2">${summary.totalClassCoverage}%</td>
+              <td class="pane-header" colspan="2">${summary.totalBlockCoverage}%</td>
+              <td class="pane-header" colspan="2">${summary.totalMethodCoverage}%</td>
+              <td class="pane-header" colspan="2">${summary.totalLineCoverage}%</td>
             </tr>
           </table>
         </td>

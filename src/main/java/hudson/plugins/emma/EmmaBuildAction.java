@@ -47,13 +47,14 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
      */
     private final EmmaHealthReportThresholds thresholds;
 
-    public EmmaBuildAction(AbstractBuild<?,?> owner, Rule rule, Ratio classCoverage, Ratio methodCoverage, Ratio blockCoverage, Ratio lineCoverage, EmmaHealthReportThresholds thresholds) {
+    public EmmaBuildAction(AbstractBuild<?,?> owner, Rule rule, Ratio classCoverage, Ratio methodCoverage, Ratio blockCoverage, Ratio lineCoverage, Ratio conditionCoverage, EmmaHealthReportThresholds thresholds) {
         this.owner = owner;
         this.rule = rule;
         this.clazz = classCoverage;
         this.method = methodCoverage;
         this.block = blockCoverage;
         this.line = lineCoverage;
+        this.condition = conditionCoverage;
         this.thresholds = thresholds;
     }
 
@@ -114,6 +115,14 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
             }
             score = updateHealthScore(score, thresholds.getMinLine(),
                                       percent, thresholds.getMaxLine());
+        }
+        if (condition != null && thresholds.getMaxCondition() > 0) {
+            percent = condition.getPercentage();
+            if (percent < thresholds.getMaxCondition()) {
+                reports.add(Messages._BuildAction_Conditions(condition, percent));
+            }
+            score = updateHealthScore(score, thresholds.getMinCondition(),
+                                      percent, thresholds.getMaxCondition());
         }
         if (score == 100) {
             reports.add(Messages._BuildAction_Perfect());
@@ -236,7 +245,8 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
                 in.close();
             }
         }
-        return new EmmaBuildAction(owner,rule,ratios[0],ratios[1],ratios[2],ratios[3],thresholds);
+           
+        return new EmmaBuildAction(owner,rule,ratios[0],ratios[1],ratios[2],ratios[3],ratios[4],thresholds);
     }
 
     public static EmmaBuildAction load(AbstractBuild<?,?> owner, Rule rule, EmmaHealthReportThresholds thresholds, InputStream... streams) throws IOException, XmlPullParserException {
@@ -244,7 +254,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
         for (InputStream in: streams) {
           ratios = loadRatios(in, ratios);
         }
-        return new EmmaBuildAction(owner,rule,ratios[0],ratios[1],ratios[2],ratios[3],thresholds);
+        return new EmmaBuildAction(owner,rule,ratios[0],ratios[1],ratios[2],ratios[3],ratios[4],thresholds);
     }
 
     private static Ratio[] loadRatios(InputStream in, Ratio[] r) throws IOException, XmlPullParserException {
@@ -263,8 +273,8 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
             break;
         }
 
-        if (r == null || r.length < 4) 
-            r = new Ratio[4];
+        if (r == null || r.length < 5) 
+            r = new Ratio[5];
         
         // head for the first <coverage> tag.
         for( int i=0; i<r.length; i++ ) {
@@ -273,11 +283,27 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
 
             parser.require(XmlPullParser.START_TAG,"","coverage");
             String v = parser.getAttributeValue("", "value");
+            String t = parser.getAttributeValue("", "type");
             
-            if (r[i] == null) {
-                r[i] = Ratio.parseValue(v);
+            int index ;
+            if ( t.equals("class, %") )
+                index = 0;
+            else if (t.equals("method, %"))
+                index = 1;
+            else if ( t.equals("block, %"))
+                index = 2;
+            else if ( t.equals("line, %") )
+                index = 3;
+            else if ( t.equals("condition, %") )
+                index = 4;
+            else
+                continue;
+                
+            
+            if (r[index] == null) {
+                r[index] = Ratio.parseValue(v);
             } else {
-                r[i].addValue(v);
+                r[index].addValue(v);
             }
             
             // move to the next coverage tag.

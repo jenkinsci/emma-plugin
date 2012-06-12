@@ -17,11 +17,13 @@ public class EmmaHealthReportThresholds implements Serializable {
     private int maxBlock;
     private int minLine;
     private int maxLine;
+    private int minCondition;
+    private int maxCondition;
 
     public EmmaHealthReportThresholds() {
     }
 
-    public EmmaHealthReportThresholds(int minClass, int maxClass, int minMethod, int maxMethod, int minBlock, int maxBlock, int minLine, int maxLine) {
+    public EmmaHealthReportThresholds(int minClass, int maxClass, int minMethod, int maxMethod, int minBlock, int maxBlock, int minLine, int maxLine, int minCondition, int maxCondition) {
         this.minClass = minClass;
         this.maxClass = maxClass;
         this.minMethod = minMethod;
@@ -30,6 +32,8 @@ public class EmmaHealthReportThresholds implements Serializable {
         this.maxBlock = maxBlock;
         this.minLine = minLine;
         this.maxLine = maxLine;
+        this.minCondition = minCondition;
+        this.maxCondition = maxCondition;
         ensureValid();
     }
 
@@ -48,6 +52,8 @@ public class EmmaHealthReportThresholds implements Serializable {
         minBlock = applyRange(0, minBlock, maxBlock);
         maxLine = applyRange(0, maxLine, 100);
         minLine = applyRange(0, minLine, maxLine);
+        maxCondition = applyRange(0, maxCondition, 100);
+        minCondition = applyRange(0, minCondition, maxCondition);
     }
 
     public int getMinClass() {
@@ -113,4 +119,21 @@ public class EmmaHealthReportThresholds implements Serializable {
     public void setMaxLine(int maxLine) {
         this.maxLine = maxLine;
     }
+    
+    public void setMinCondition(int minCondition) {
+        this.minCondition = minCondition;
+    }
+
+    public int getMinCondition() {
+        return minCondition;
+    }
+
+    public void setMaxCondition(int maxCondition) {
+        this.maxCondition = maxCondition;
+    }
+
+    public int getMaxCondition() {
+        return maxCondition;
+    }
+
 }

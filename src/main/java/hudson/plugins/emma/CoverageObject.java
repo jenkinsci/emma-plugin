@@ -46,6 +46,7 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
     Ratio method = new Ratio();
     Ratio block = new Ratio();
     Ratio line = new Ratio();
+    Ratio condition = new Ratio();
     
     private volatile boolean failed = false;
 

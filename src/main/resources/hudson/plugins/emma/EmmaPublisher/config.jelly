@@ -14,11 +14,12 @@
         <table>
             <thead>
                 <tr>
-                    <td width="20%"></td>
-                    <td width="20%">${%Class}</td>
-                    <td width="20%">${%Method}</td>
-                    <td width="20%">${%Block}</td>
-                    <td width="20%">${%Line}</td>
+                    <td width="18%"></td>
+                    <td width="16%">${%Class}</td>
+                    <td width="16%">${%Method}</td>
+                    <td width="16%">${%Block}</td>
+                    <td width="16%">${%Line}</td>
+                    <td width="16%">${%Condition}</td>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,9 @@
                     <td>
                         <f:textbox name="emmaHealthReports.maxLine" value="${instance.healthReports.maxLine}" />
                     </td>
+                    <td>
+                        <f:textbox name="emmaHealthReports.maxCondition" value="${instance.healthReports.maxCondition}" />
+                    </td>
                 </tr>
                 <tr>
                     <th>
@@ -56,6 +60,9 @@
                     </td>
                     <td>
                         <f:textbox name="emmaHealthReports.minLine" value="${instance.healthReports.minLine}" />
+                    </td>
+                    <td>
+                        <f:textbox name="emmaHealthReports.minCondition" value="${instance.healthReports.minCondition}" />
                     </td>
                 </tr>
             </tbody>

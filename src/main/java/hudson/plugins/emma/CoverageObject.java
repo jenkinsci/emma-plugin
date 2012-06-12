@@ -86,6 +86,14 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
     }
 
     /**
+     * Line coverage. Can be null if this information is not collected.
+     */
+    @Exported(inline=true)
+    public Ratio getConditionCoverage() {
+        return condition;
+    }
+
+    /**
      * Gets the build object that owns the whole coverage report tree.
      */
     public abstract AbstractBuild<?,?> getBuild();
@@ -109,7 +117,12 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
         printRatioCell(isFailed(), method, buf);
         printRatioCell(isFailed(), block, buf);
         printRatioCell(isFailed(), line, buf);
+        printRatioCell(isFailed(), condition, buf);
         return buf.toString();
+    }
+
+    public boolean hasConditionCoverage() {
+        return condition.isInitialized();
     }
 
     public boolean hasLineCoverage() {
@@ -180,6 +193,9 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
                     dsb.add(a.method.getPercentageFloat(), Messages.CoverageObject_Legend_Method(), label);
                     if (a.line != null) {
                         dsb.add(a.line.getPercentageFloat(), Messages.CoverageObject_Legend_Line(), label);
+                    }
+                    if (a.condition != null) {
+                        dsb.add(a.condition.getPercentageFloat(), Messages.CoverageObject_Legend_Condition(), label);
                     }
                 }
 

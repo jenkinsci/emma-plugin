@@ -210,6 +210,7 @@ public class EmmaBuilderTrendChart extends DashboardPortlet {
       float classCoverage = 0;
       float lineCoverage = 0;
       float methodCoverage = 0;
+      float conditionCoverage = 0;
 
       int count = 0;
 
@@ -220,6 +221,7 @@ public class EmmaBuilderTrendChart extends DashboardPortlet {
         classCoverage += item.getClassCoverage();
         lineCoverage += item.getLineCoverage();
         methodCoverage += item.getMethodCoverage();
+        conditionCoverage += item.getConditionCoverage();
         count++;
       }
 
@@ -227,6 +229,7 @@ public class EmmaBuilderTrendChart extends DashboardPortlet {
       dataSetBuilder.add((classCoverage / count), "class", entry.getKey());
       dataSetBuilder.add((lineCoverage / count), "line", entry.getKey());
       dataSetBuilder.add((methodCoverage / count), "method", entry.getKey());
+      dataSetBuilder.add((conditionCoverage / count), "condition", entry.getKey());
     }
 
     return dataSetBuilder.build();

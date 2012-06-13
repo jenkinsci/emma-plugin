@@ -229,7 +229,7 @@ public class EmmaBuilderTrendChart extends DashboardPortlet {
       dataSetBuilder.add((classCoverage / count), "class", entry.getKey());
       dataSetBuilder.add((lineCoverage / count), "line", entry.getKey());
       dataSetBuilder.add((methodCoverage / count), "method", entry.getKey());
-      dataSetBuilder.add((conditionCoverage / count), "condition", entry.getKey());
+      dataSetBuilder.add((conditionCoverage / count), "decision/condition", entry.getKey());
     }
 
     return dataSetBuilder.build();

@@ -11,7 +11,7 @@
       <th>${%line}</th>
     </j:if>
     <j:if test="${it.hasChildrenConditionCoverage()}">
-      <th>${%condition}</th>
+      <th>${%decision/condition}</th>
     </j:if>
   </tr>
  </j:if>  

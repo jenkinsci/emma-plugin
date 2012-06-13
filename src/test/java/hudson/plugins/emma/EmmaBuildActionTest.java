@@ -18,7 +18,7 @@ public class EmmaBuildActionTest extends AbstractEmmaTestBase {
         assertRatio(r.condition, 5917,15253);
  
         String description = r.getBuildHealth().getDescription() ;
-        assertEquals("Coverage: Classes 75/94 (80%). Methods 947/2176 (44%). Blocks 2842/7967 (36%). Conditions 5917/15253 (39%). ",
+        assertEquals("Coverage: Classes 75/94 (80%). Methods 947/2176 (44%). Blocks 2842/7967 (36%). Decisions/Conditions 5917/15253 (39%). ",
                      description);
     }
 
@@ -34,7 +34,7 @@ public class EmmaBuildActionTest extends AbstractEmmaTestBase {
         assertRatio(r.condition, 4,15);
  
         String description = r.getBuildHealth().getDescription() ;
-        assertEquals("Coverage: Blocks 2/5 (40%). Conditions 4/15 (27%).   ",
+        assertEquals("Coverage: Blocks 2/5 (40%). Decisions/Conditions 4/15 (27%).   ",
                      description);
     }
     

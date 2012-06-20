@@ -180,6 +180,7 @@ public final class EmmaLoadData {
     float classCoverage = 0.0f;
     float lineCoverage = 0.0f;
     float methodCoverage = 0.0f;
+    float conditionCoverage = 0.0f;
 
     if (emmaAction != null) {
       if (null != emmaAction.getBlockCoverage()) {
@@ -194,8 +195,11 @@ public final class EmmaLoadData {
       if (null != emmaAction.getMethodCoverage()) {
         methodCoverage = emmaAction.getMethodCoverage().getPercentageFloat();
       }
+      if (null != emmaAction.getConditionCoverage()) {
+        conditionCoverage = emmaAction.getConditionCoverage().getPercentageFloat();
+      }
     }
-    return new EmmaCoverageResultSummary(run.getParent(), blockCoverage, lineCoverage, methodCoverage, classCoverage);
+    return new EmmaCoverageResultSummary(run.getParent(), blockCoverage, lineCoverage, methodCoverage, classCoverage, conditionCoverage);
   }
 
   /**
@@ -214,6 +218,7 @@ public final class EmmaLoadData {
       float classCoverage = 0.0f;
       float lineCoverage = 0.0f;
       float methodCoverage = 0.0f;
+      float conditionCoverage = 0.0f;
 
       Run run = job.getLastSuccessfulBuild();
 
@@ -250,10 +255,17 @@ public final class EmmaLoadData {
             bigMethodCoverage = bigMethodCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
             methodCoverage = bigMethodCoverage.floatValue();
           }
+          
+          if (null != emmaAction.getConditionCoverage()) {
+            conditionCoverage = emmaAction.getConditionCoverage().getPercentageFloat();
+            BigDecimal bigConditionCoverage = new BigDecimal(conditionCoverage);
+            bigConditionCoverage = bigConditionCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
+            conditionCoverage = bigConditionCoverage.floatValue();
+          }
         }
       }
       summary.addCoverageResult(new EmmaCoverageResultSummary(job, blockCoverage, lineCoverage, methodCoverage,
-        classCoverage));
+        classCoverage, conditionCoverage));
     }
     return summary;
   }

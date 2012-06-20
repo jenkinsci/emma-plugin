@@ -10,6 +10,9 @@
     <j:if test="${it.hasChildrenLineCoverage()}">
       <th>${%line}</th>
     </j:if>
+    <j:if test="${it.hasChildrenConditionCoverage()}">
+      <th>${%decision/condition}</th>
+    </j:if>
   </tr>
  </j:if>  
 </j:jelly>

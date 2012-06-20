@@ -33,6 +33,8 @@ public final class CoverageElement {
     		r = report.block;
         } else if(type.equals("line, %")) {
     		r = report.line;
+        } else if(type.equals("condition, %")) {
+    		r = report.condition;
         } else {
             throw new IllegalArgumentException("Invalid type: "+type);
         }

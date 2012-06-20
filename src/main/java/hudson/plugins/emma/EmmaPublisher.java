@@ -248,6 +248,9 @@ public class EmmaPublisher extends Recorder {
             if ("".equals(req.getParameter("emmaHealthReports.maxLine"))) {
                 pub.healthReports.setMaxLine(80);
             }
+            if ("".equals(req.getParameter("emmaHealthReports.maxCondition"))) {
+                pub.healthReports.setMaxCondition(80);
+            }
             // end ugly hack
             return pub;
         }

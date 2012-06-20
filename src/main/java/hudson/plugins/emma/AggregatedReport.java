@@ -67,4 +67,14 @@ public abstract class AggregatedReport<PARENT extends AggregatedReport<?,PARENT,
         return false;
     }
 
+
+    public boolean hasChildrenConditionCoverage() {
+    	for (CHILD child : getChildren().values()){
+    		if (child.hasConditionCoverage()) {
+    			return true;
+    		}
+    	}
+        return false;
+    }
+
 }

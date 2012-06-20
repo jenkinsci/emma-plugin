@@ -41,6 +41,7 @@
               <td class="pane-header" style="text-align: center;">${%Block}</td>
               <td class="pane-header" style="text-align: center;">${%Method}</td>
               <td class="pane-header" style="text-align: center;">${%Line}</td>
+              <td class="pane-header" style="text-align: center;">${%Condition}</td>
             </tr>
             <j:set var="summary" value="${it.getEmmaCoverageResultSummary(jobs)}"/>
             <j:forEach var="tr" items="${summary.emmaCoverageResults}">
@@ -52,6 +53,7 @@
                 <td class="pane" style="text-align: right;" data="${tr.blockCoverage}">${tr.blockCoverage}%</td>
                 <td class="pane" style="text-align: right;" data="${tr.methodCoverage}">${tr.methodCoverage}%</td>
                 <td class="pane" style="text-align: right;" data="${tr.lineCoverage}">${tr.lineCoverage}%</td>
+                <td class="pane" style="text-align: right;" data="${tr.conditionCoverage}">${tr.conditionCoverage}%</td>
             </tr>
             </j:forEach>
             <tr class="sortbottom">
@@ -60,6 +62,7 @@
               <td class="pane-header" style="text-align: right;">${summary.totalBlockCoverage}%</td>
               <td class="pane-header" style="text-align: right;">${summary.totalMethodCoverage}%</td>
               <td class="pane-header" style="text-align: right;">${summary.totalLineCoverage}%</td>
+              <td class="pane-header" style="text-align: right;">${summary.totalConditionCoverage}%</td>
             </tr>
           </table>
         </td>

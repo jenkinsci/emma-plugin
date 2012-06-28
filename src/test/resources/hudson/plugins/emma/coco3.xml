@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+    <stats>
+        <packages value="1"/>
+        <classes value="1"/>
+        <methods value="1"/>
+        <srcfiles value="1"/>
+    </stats>
+    <data>
+        <all name="all classes">
+            <coverage type="class, %" value="100% (1/1)"/>
+            <coverage type="method, %" value="100% (1/1)"/>
+            <coverage type="block, %" value="40% (2/5)"/>
+            <package name="tutorial_v3">
+                <coverage type="class, %" value="100% (1/1)"/>
+                <coverage type="method, %" value="100% (1/1)"/>
+                <coverage type="block, %" value="40% (2/5)"/>
+                <srcfile name="tutorial.cpp">
+                    <coverage type="class, %" value="100% (1/1)"/>
+                    <coverage type="method, %" value="100% (1/1)"/>
+                    <coverage type="block, %" value="40% (2/5)"/>
+                    <class name="">
+                        <coverage type="class, %" value="100% (1/1)"/>
+                        <coverage type="method, %" value="100% (1/1)"/>
+                        <coverage type="block, %" value="40% (2/5)"/>
+                        <method name="main">
+                            <coverage type="method, %" value="100% (1/1)"/>
+                            <coverage type="block, %" value="40% (2/5)"/>
+                        </method>
+                    </class>
+                </srcfile>
+            </package>
+        </all>
+    </data>
+</report>

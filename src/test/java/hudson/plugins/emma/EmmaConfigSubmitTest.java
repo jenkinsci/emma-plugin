@@ -58,6 +58,7 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         f.getInputByName("emmaHealthReports.maxMethod").setValueAttribute("");
         f.getInputByName("emmaHealthReports.maxBlock").setValueAttribute("");
         f.getInputByName("emmaHealthReports.maxLine").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.maxCondition").setValueAttribute("");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -67,6 +68,33 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         assertEquals(70, thresholds.getMaxMethod());
         assertEquals(80, thresholds.getMaxBlock());
         assertEquals(80, thresholds.getMaxLine());
+        assertEquals(80, thresholds.getMaxCondition());
+    }    
+
+    public void testHealthReportDefaultMinValue() throws Exception {
+        WebClient client = new WebClient();
+        client.setThrowExceptionOnFailingStatusCode(false);
+
+        FreeStyleProject fp = createFreeStyleProject();
+        HtmlPage p = client.goTo(fp.getUrl() + "/configure");
+        HtmlForm f = p.getFormByName("config");
+
+        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
+        f.getInputByName("emmaHealthReports.minClass").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.minMethod").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.minBlock").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.minLine").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.minCondition").setValueAttribute("");
+        submit(f);
+
+        EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
+        EmmaHealthReportThresholds thresholds = publisher.healthReports;
+        
+        assertEquals(0, thresholds.getMinClass());
+        assertEquals(0, thresholds.getMinMethod());
+        assertEquals(0, thresholds.getMinBlock());
+        assertEquals(0, thresholds.getMinLine());
+        assertEquals(0, thresholds.getMinCondition());
     }    
 
     public void testHealthReportMaxValue() throws Exception {
@@ -82,6 +110,7 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         f.getInputByName("emmaHealthReports.maxMethod").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.maxBlock").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.maxLine").setValueAttribute("10");
+        f.getInputByName("emmaHealthReports.maxCondition").setValueAttribute("10");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -91,6 +120,7 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         assertEquals(10, thresholds.getMaxMethod());
         assertEquals(10, thresholds.getMaxBlock());
         assertEquals(10, thresholds.getMaxLine());
+        assertEquals(10, thresholds.getMaxCondition());
     }    
 
     public void testHealthReportMinValue() throws Exception {
@@ -106,6 +136,7 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         f.getInputByName("emmaHealthReports.minMethod").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.minBlock").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.minLine").setValueAttribute("10");
+        f.getInputByName("emmaHealthReports.minCondition").setValueAttribute("10");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -115,6 +146,7 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         assertEquals(10, thresholds.getMinMethod());
         assertEquals(10, thresholds.getMinBlock());
         assertEquals(10, thresholds.getMinLine());
+        assertEquals(10, thresholds.getMinCondition());
     }    
     
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+    <stats>
+        <packages value="1"/>
+        <classes value="1"/>
+        <methods value="1"/>
+        <srcfiles value="1"/>
+        <srclines value="13"/>
+        <conditions value="15"/>
+    </stats>
+    <data>
+        <all name="all classes">
+            <coverage type="class, %" value="100% (1/1)"/>
+            <coverage type="method, %" value="100% (1/1)"/>
+            <coverage type="block, %" value="40% (2/5)"/>
+            <coverage type="line, %" value="61% (8/13)"/>
+            <coverage type="condition, %" value="26% (4/15)"/>
+            <package name="tutorial_v3">
+                <coverage type="class, %" value="100% (1/1)"/>
+                <coverage type="method, %" value="100% (1/1)"/>
+                <coverage type="block, %" value="40% (2/5)"/>
+                <coverage type="line, %" value="61% (8/13)"/>
+                <coverage type="condition, %" value="26% (4/15)"/>
+                <srcfile name="tutorial.cpp">
+                    <coverage type="class, %" value="100% (1/1)"/>
+                    <coverage type="method, %" value="100% (1/1)"/>
+                    <coverage type="block, %" value="40% (2/5)"/>
+                    <coverage type="line, %" value="61% (8/13)"/>
+                    <coverage type="condition, %" value="26% (4/15)"/>
+                    <class name="">
+                        <coverage type="class, %" value="100% (1/1)"/>
+                        <coverage type="method, %" value="100% (1/1)"/>
+                        <coverage type="block, %" value="40% (2/5)"/>
+                        <coverage type="line, %" value="61% (8/13)"/>
+                        <coverage type="condition, %" value="26% (4/15)"/>
+                        <method name="main">
+                            <coverage type="method, %" value="100% (1/1)"/>
+                            <coverage type="block, %" value="40% (2/5)"/>
+                            <coverage type="line, %" value="61% (8/13)"/>
+                            <coverage type="condition, %" value="26% (4/15)"/>
+                        </method>
+                    </class>
+                </srcfile>
+            </package>
+        </all>
+    </data>
+</report>

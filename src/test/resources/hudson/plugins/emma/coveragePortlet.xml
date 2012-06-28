@@ -919,6 +919,11 @@
               <coverage type="block, %" value="0%   (0/6)"/>
               <coverage type="line, %" value="0%   (0/1)"/>
             </method>
+            <method name="BuildAction_Conditions (Object, Object): String">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/14)"/>
+              <coverage type="line, %" value="0%   (0/1)"/>
+            </method>
             <method name="BuildAction_Lines (Object, Object): String">
               <coverage type="method, %" value="0%   (0/1)"/>
               <coverage type="block, %" value="0%   (0/14)"/>
@@ -940,6 +945,11 @@
               <coverage type="line, %" value="0%   (0/1)"/>
             </method>
             <method name="CoverageObject_Legend_Class (): String">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/6)"/>
+              <coverage type="line, %" value="0%   (0/1)"/>
+            </method>
+            <method name="CoverageObject_Legend_Condition (): String">
               <coverage type="method, %" value="0%   (0/1)"/>
               <coverage type="block, %" value="0%   (0/6)"/>
               <coverage type="line, %" value="0%   (0/1)"/>
@@ -989,6 +999,11 @@
               <coverage type="block, %" value="0%   (0/8)"/>
               <coverage type="line, %" value="0%   (0/1)"/>
             </method>
+            <method name="_BuildAction_Conditions (Object, Object): Localizable">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/16)"/>
+              <coverage type="line, %" value="0%   (0/1)"/>
+            </method>
             <method name="_BuildAction_Lines (Object, Object): Localizable">
               <coverage type="method, %" value="0%   (0/1)"/>
               <coverage type="block, %" value="0%   (0/16)"/>
@@ -1010,6 +1025,11 @@
               <coverage type="line, %" value="0%   (0/1)"/>
             </method>
             <method name="_CoverageObject_Legend_Class (): Localizable">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/8)"/>
+              <coverage type="line, %" value="0%   (0/1)"/>
+            </method>
+            <method name="_CoverageObject_Legend_Condition (): Localizable">
               <coverage type="method, %" value="0%   (0/1)"/>
               <coverage type="block, %" value="0%   (0/8)"/>
               <coverage type="line, %" value="0%   (0/1)"/>

@@ -66,6 +66,11 @@ public class EmmaCoverageResultSummary {
    */
   private float classCoverage;
 
+  /**
+   * Condition coverage percentage.
+   */
+  private float conditionCoverage;
+
   private List<EmmaCoverageResultSummary> coverageResults = new ArrayList<EmmaCoverageResultSummary>();
 
   /**
@@ -89,12 +94,13 @@ public class EmmaCoverageResultSummary {
    *          coverage percentage
    */
   public EmmaCoverageResultSummary(Job job, float blockCoverage, float lineCoverage, float methodCoverage,
-    float classCoverage) {
+    float classCoverage, float conditionCoverage) {
     this.job = job;
     this.blockCoverage = blockCoverage;
     this.lineCoverage = lineCoverage;
     this.methodCoverage = methodCoverage;
     this.classCoverage = classCoverage;
+    this.conditionCoverage = conditionCoverage;
   }
 
   /**
@@ -111,6 +117,7 @@ public class EmmaCoverageResultSummary {
     this.setLineCoverage(this.getLineCoverage() + coverageResult.getLineCoverage());
     this.setMethodCoverage(this.getMethodCoverage() + coverageResult.getMethodCoverage());
     this.setClassCoverage(this.getClassCoverage() + coverageResult.getClassCoverage());
+    this.setConditionCoverage(this.getConditionCoverage() + coverageResult.getConditionCoverage());
 
     getCoverageResults().add(coverageResult);
 
@@ -172,17 +179,17 @@ public class EmmaCoverageResultSummary {
   }
 
   /**
-   * Getter of the total of method coverage.
+   * Getter of the total of condition coverage.
    *
    * @return float the total of method coverage.
    */
-  public float getTotalMethodCoverage() {
+  public float getTotalConditionCoverage() {
     if (this.getCoverageResults().size() <= 0) {
       return 0.0f;
     } else {
-      float totalMethod = this.getMethodCoverage() / this.getCoverageResults().size();
-      totalMethod = Utils.roundFLoat(1, BigDecimal.ROUND_HALF_EVEN, totalMethod);
-      return totalMethod;
+      float totalCondition = this.getConditionCoverage() / this.getCoverageResults().size();
+      totalCondition = Utils.roundFLoat(1, BigDecimal.ROUND_HALF_EVEN, totalCondition);
+      return totalCondition;
     }
   }
 
@@ -205,6 +212,13 @@ public class EmmaCoverageResultSummary {
    */
   public float getLineCoverage() {
     return lineCoverage;
+  }
+
+  /**
+   * @return the conditionCoverage
+   */
+  public float getConditionCoverage() {
+    return conditionCoverage;
   }
 
   /**
@@ -251,6 +265,15 @@ public class EmmaCoverageResultSummary {
    */
   public void setMethodCoverage(float methodCoverage) {
     this.methodCoverage = methodCoverage;
+  }
+
+
+  /**
+   * @param conditionCoverage
+   *          the conditionCoverage to set
+   */
+  public void setConditionCoverage(float conditionCoverage) {
+    this.conditionCoverage = conditionCoverage;
   }
 
   /**

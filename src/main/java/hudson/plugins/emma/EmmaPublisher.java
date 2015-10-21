@@ -53,7 +53,6 @@ public class EmmaPublisher extends Recorder {
      */
     public EmmaHealthReportThresholds healthReports = new EmmaHealthReportThresholds();
 
-    //[KB]
     /**
      * get instance of AdvancedSettings object 
      */

@@ -4,7 +4,7 @@ package hudson.plugins.emma;
 import java.io.Serializable;
 
 ////////////////////////////////////////////////////////////////////////////////
-//[KB]  implementation for the advanced setup support
+//  implementation for the advanced setup support
 public class AdvancedSettings implements Serializable {
     
     private boolean testNotMandatory = false;

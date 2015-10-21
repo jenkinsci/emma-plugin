@@ -149,7 +149,6 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         assertEquals(10, thresholds.getMinCondition());
     }    
     
-    //[KB]
     public void test_new_no_tests_required_flag() throws Exception {
         WebClient client = new WebClient();
         client.setThrowExceptionOnFailingStatusCode(false);
@@ -175,7 +174,6 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         assertEquals(false, publisher4.advancedSettings.getTestNotMandatory());
     }
 
-    //[KB]
     public void testDataColumnMapping() throws Exception {
         WebClient client = new WebClient();
         client.setThrowExceptionOnFailingStatusCode(false);

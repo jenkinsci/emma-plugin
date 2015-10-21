@@ -69,7 +69,7 @@ public abstract class AbstractReport<
     }
 
 ////////////////////////////////////////////////////////////////////////////////
-//[KB] default interface implementation for the advanced setup support
+// default interface implementation for the advanced setup support
     
 //    @Override
     public boolean getTestNotMandatory(){

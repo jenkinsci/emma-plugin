@@ -101,46 +101,46 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
     }
 
 ////////////////////////////////////////////////////////////////////////////////
-//[KB]  overridden interface implementation for the advanced setup support
+//  overridden interface implementation for the advanced setup support
 //
 //      root object for reporting 
 //          -> get config data from action object
 //              -> read from build.xml???
     
-//  @Override
+    @Override
     public boolean getTestNotMandatory(){
        return action.getTestNotMandatory();
     }
     
-//  @Override
+    @Override
     public String getFirstDataColumnDescriptor()
     {
         //return getLastAction().getFirstDataColumnDescriptor();
         return action.getFirstDataColumnDescriptor();
     }
 
-//  @Override
+    @Override
     public String getSecondDataColumnDescriptor()
     {
         //return getLastAction().getFirstDataColumnDescriptor();
         return action.getSecondDataColumnDescriptor();
     }
 
-//  @Override
+    @Override
     public String getThirdDataColumnDescriptor()
     {
         //return getLastAction().getFirstDataColumnDescriptor();
         return action.getThirdDataColumnDescriptor();
     }
 
-//  @Override
+    @Override
     public String getFourthDataColumnDescriptor()
     {
         //return getLastAction().getFirstDataColumnDescriptor();
         return action.getFourthDataColumnDescriptor();
     }
 
-//  @Override
+    @Override
     public String getFifthDataColumnDescriptor()
     {
         //return getLastAction().getFirstDataColumnDescriptor();

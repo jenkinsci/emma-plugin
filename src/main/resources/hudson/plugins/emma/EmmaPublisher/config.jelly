@@ -75,7 +75,7 @@
     </f:entry>
     
 <!-- /////////////////////////////////////////////////////////////////////// -->
-<!-- [KB]  for the advanced setup support                                    -->
+<!--  the advanced setup support                                    -->
     <f:section title="${%advancedSection.title}">
         <f:advanced>
 

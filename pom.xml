@@ -29,6 +29,10 @@
       <name>Manuel Carrasco Monino</name>
       <email>manolo@apache.org</email>
     </developer>
+    <developer>
+      <id>kbrandt</id>
+      <name>Karsten Brandt</name>
+    </developer>
   </developers>
 
   <scm>

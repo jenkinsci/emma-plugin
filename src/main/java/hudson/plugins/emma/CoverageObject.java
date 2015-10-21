@@ -40,7 +40,7 @@ import java.util.Calendar;
  * @author Kohsuke Kawaguchi
  */
 @ExportedBean
-public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
+public abstract class CoverageObject<SELF extends CoverageObject<SELF>> extends AdvancedSettings {
 
 	Ratio clazz = new Ratio();
     Ratio method = new Ratio();
@@ -113,11 +113,11 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
      */
     public String printFourCoverageColumns() {
         StringBuilder buf = new StringBuilder();
-        printRatioCell(isFailed(), clazz, buf);
-        printRatioCell(isFailed(), method, buf);
-        printRatioCell(isFailed(), block, buf);
-        printRatioCell(isFailed(), line, buf);
-        printRatioCell(isFailed(), condition, buf);
+        printRatioCell(isFailed(), clazz, buf, getTestNotMandatory());
+        printRatioCell(isFailed(), method, buf, getTestNotMandatory());
+        printRatioCell(isFailed(), block, buf, getTestNotMandatory());
+        printRatioCell(isFailed(), line, buf, getTestNotMandatory());
+        printRatioCell(isFailed(), condition, buf, getTestNotMandatory());
         return buf.toString();
     }
 
@@ -138,26 +138,26 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
     static NumberFormat percentFormat = new DecimalFormat("0.0");
     static NumberFormat intFormat = new DecimalFormat("0");
     
-	protected static void printRatioCell(boolean failed, Ratio ratio, StringBuilder buf) {
-		if (ratio != null && ratio.isInitialized()) {
+	protected static void printRatioCell(boolean failed, Ratio ratio, StringBuilder buf, boolean no_tests_required) {
+                if (ratio != null && ratio.isInitialized()) {
 			String className = "nowrap" + (failed ? " red" : "");
 			buf.append("<td class='").append(className).append("'");
-			buf.append(" data='").append(dataFormat.format(ratio.getPercentageFloat()));
+			buf.append(" data='").append(dataFormat.format(ratio.getPercentageFloat(no_tests_required)));
 			buf.append("'>\n");
-			printRatioTable(ratio, buf);
+			printRatioTable(ratio, buf, no_tests_required);
 			buf.append("</td>\n");
 		}
 	}
 	
-	protected static void printRatioTable(Ratio ratio, StringBuilder buf){
-		String data = dataFormat.format(ratio.getPercentageFloat());
-		String percent = percentFormat.format(ratio.getPercentageFloat());
+	protected static void printRatioTable(Ratio ratio, StringBuilder buf, boolean no_tests_required){
+		String data = dataFormat.format(ratio.getPercentageFloat(no_tests_required));
+		String percent = percentFormat.format(ratio.getPercentageFloat(no_tests_required));
 		String numerator = intFormat.format(ratio.getNumerator());
 		String denominator = intFormat.format(ratio.getDenominator());
 		buf.append("<table class='percentgraph' cellpadding='0px' cellspacing='0px'><tr class='percentgraph'>")
 				.append("<td width='64px' class='data'>").append(percent).append("%</td>")
 				.append("<td class='percentgraph'>")
-				.append("<div class='percentgraph'><div class='greenbar' style='width: ").append(ratio.getPercentageFloat()).append("px;'>")
+				.append("<div class='percentgraph'><div class='greenbar' style='width: ").append(ratio.getPercentageFloat(no_tests_required)).append("px;'>")
 				.append("<span class='text'>").append(numerator).append("/").append(denominator)
 				.append("</span></div></div></td></tr></table>") ;
 	}
@@ -188,14 +188,18 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 
                 for (CoverageObject<SELF> a = obj; a != null; a = a.getPreviousResult()) {
                     NumberOnlyBuildLabel label = new NumberOnlyBuildLabel(a.getBuild());
-                    dsb.add(a.clazz.getPercentageFloat(), Messages.CoverageObject_Legend_Class(), label);
-                    dsb.add(a.block.getPercentageFloat(), Messages.CoverageObject_Legend_Block(), label);
-                    dsb.add(a.method.getPercentageFloat(), Messages.CoverageObject_Legend_Method(), label);
+                    dsb.add(a.clazz.getPercentageFloat(getTestNotMandatory()), a.getFirstDataColumnDescriptor(), label);
+                    dsb.add(a.method.getPercentageFloat(getTestNotMandatory()), a.getSecondDataColumnDescriptor(), label);
+                    dsb.add(a.block.getPercentageFloat(getTestNotMandatory()), a.getThirdDataColumnDescriptor(), label);
                     if (a.line != null) {
-                        dsb.add(a.line.getPercentageFloat(), Messages.CoverageObject_Legend_Line(), label);
+                        if (a.hasLineCoverage()){
+                            dsb.add(a.line.getPercentageFloat(getTestNotMandatory()), a.getFourthDataColumnDescriptor(), label);
+                        }
                     }
                     if (a.condition != null) {
-                        dsb.add(a.condition.getPercentageFloat(), Messages.CoverageObject_Legend_Condition(), label);
+                        if (a.hasConditionCoverage()){
+                            dsb.add(a.condition.getPercentageFloat(getTestNotMandatory()), a.getFifthDataColumnDescriptor(), label);
+                        }
                     }
                 }
 

@@ -67,4 +67,87 @@ public abstract class AbstractReport<
     public AbstractBuild<?,?> getBuild() {
         return parent.getBuild();
     }
+
+////////////////////////////////////////////////////////////////////////////////
+//[KB] default interface implementation for the advanced setup support
+    
+//    @Override
+    public boolean getTestNotMandatory(){
+        boolean ret_val = false;
+        PARENT p = getParent();
+        
+        if(p != null){
+            ret_val = p.getTestNotMandatory();
+        }
+        
+        return ret_val;
+    }
+    
+    @Override
+    public String getFirstDataColumnDescriptor()
+    {
+        String ret_val = "";
+        PARENT p = getParent();
+        
+        if(p != null){
+            ret_val = p.getFirstDataColumnDescriptor();
+        }
+        
+        return ret_val;
+    }
+    
+    @Override
+    public String getSecondDataColumnDescriptor()
+    {
+        String ret_val = "";
+        PARENT p = getParent();
+        
+        if(p != null){
+            ret_val = p.getSecondDataColumnDescriptor();
+        }
+        
+        return ret_val;
+    }
+    
+    @Override
+    public String getThirdDataColumnDescriptor()
+    {
+        String ret_val = "";
+        PARENT p = getParent();
+        
+        if(p != null){
+            ret_val = p.getThirdDataColumnDescriptor();
+        }
+        
+        return ret_val;
+    }
+    
+    @Override
+    public String getFourthDataColumnDescriptor()
+    {
+        String ret_val = "";
+        PARENT p = getParent();
+        
+        if(p != null){
+            ret_val = p.getFourthDataColumnDescriptor();
+        }
+        
+        return ret_val;
+    }
+    
+    @Override
+    public String getFifthDataColumnDescriptor()
+    {
+        String ret_val = "";
+        PARENT p = getParent();
+        
+        if(p != null){
+            ret_val = p.getFifthDataColumnDescriptor();
+        }
+        
+        return ret_val;
+    }
+//
+////////////////////////////////////////////////////////////////////////////////
+
 }

@@ -184,19 +184,19 @@ public final class EmmaLoadData {
 
     if (emmaAction != null) {
       if (null != emmaAction.getBlockCoverage()) {
-        blockCoverage = emmaAction.getBlockCoverage().getPercentageFloat();
+        blockCoverage = emmaAction.getBlockCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
       }
       if (null != emmaAction.getClassCoverage()) {
-        classCoverage = emmaAction.getClassCoverage().getPercentageFloat();
+        classCoverage = emmaAction.getClassCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
       }
       if (null != emmaAction.getLineCoverage()) {
-        lineCoverage = emmaAction.getLineCoverage().getPercentageFloat();
+        lineCoverage = emmaAction.getLineCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
       }
       if (null != emmaAction.getMethodCoverage()) {
-        methodCoverage = emmaAction.getMethodCoverage().getPercentageFloat();
+        methodCoverage = emmaAction.getMethodCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
       }
       if (null != emmaAction.getConditionCoverage()) {
-        conditionCoverage = emmaAction.getConditionCoverage().getPercentageFloat();
+        conditionCoverage = emmaAction.getConditionCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
       }
     }
     return new EmmaCoverageResultSummary(run.getParent(), blockCoverage, lineCoverage, methodCoverage, classCoverage, conditionCoverage);
@@ -230,34 +230,34 @@ public final class EmmaLoadData {
             continue;
         } else {
           if (null != emmaAction.getBlockCoverage()) {
-            blockCoverage = emmaAction.getBlockCoverage().getPercentageFloat();
+            blockCoverage = emmaAction.getBlockCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
             BigDecimal bigBlockCoverage = new BigDecimal(blockCoverage);
             bigBlockCoverage = bigBlockCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
             blockCoverage = bigBlockCoverage.floatValue();
           }
 
           if (null != emmaAction.getClassCoverage()) {
-            classCoverage = emmaAction.getClassCoverage().getPercentageFloat();
+            classCoverage = emmaAction.getClassCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
             BigDecimal bigClassCoverage = new BigDecimal(classCoverage);
             bigClassCoverage = bigClassCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
             classCoverage = bigClassCoverage.floatValue();
           }
           if (null != emmaAction.getLineCoverage()) {
-            lineCoverage = emmaAction.getLineCoverage().getPercentageFloat();
+            lineCoverage = emmaAction.getLineCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
             BigDecimal bigLineCoverage = new BigDecimal(lineCoverage);
             bigLineCoverage = bigLineCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
             lineCoverage = bigLineCoverage.floatValue();
           }
 
           if (null != emmaAction.getMethodCoverage()) {
-            methodCoverage = emmaAction.getMethodCoverage().getPercentageFloat();
+            methodCoverage = emmaAction.getMethodCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
             BigDecimal bigMethodCoverage = new BigDecimal(methodCoverage);
             bigMethodCoverage = bigMethodCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
             methodCoverage = bigMethodCoverage.floatValue();
           }
           
           if (null != emmaAction.getConditionCoverage()) {
-            conditionCoverage = emmaAction.getConditionCoverage().getPercentageFloat();
+            conditionCoverage = emmaAction.getConditionCoverage().getPercentageFloat(emmaAction.getTestNotMandatory());
             BigDecimal bigConditionCoverage = new BigDecimal(conditionCoverage);
             bigConditionCoverage = bigConditionCoverage.setScale(1, BigDecimal.ROUND_HALF_EVEN);
             conditionCoverage = bigConditionCoverage.floatValue();

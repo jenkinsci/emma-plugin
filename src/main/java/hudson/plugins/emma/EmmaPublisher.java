@@ -53,6 +53,12 @@ public class EmmaPublisher extends Recorder {
      */
     public EmmaHealthReportThresholds healthReports = new EmmaHealthReportThresholds();
 
+    //[KB]
+    /**
+     * get instance of AdvancedSettings object 
+     */
+    public AdvancedSettings advancedSettings = new AdvancedSettings();   
+    
     /**
      * look for emma reports based in the configured parameter includes. 'includes' is - an Ant-style pattern - a list
      * of files and folders separated by the characters ;:,
@@ -151,6 +157,8 @@ public class EmmaPublisher extends Recorder {
 
         final EmmaBuildAction action = EmmaBuildAction.load(build, rule, healthReports, reports);
 
+        action.applySettings(advancedSettings);
+        
         logger.println("Emma: " + action.getBuildHealth().getDescription());
         
         build.getActions().add(action);
@@ -180,34 +188,34 @@ public class EmmaPublisher extends Recorder {
         		build.setResult(Result.FAILURE);
         	} 
         	if (isClassCoverageOk(action)) {
-        		logger.println("Emma: Classes coverage "+action.getClassCoverage().getPercentage()+"% < "+healthReports.getMinClass()+"%.");
+        		logger.println("Emma: Classes coverage "+action.getClassCoverage().getPercentage(advancedSettings.getTestNotMandatory())+"% < "+healthReports.getMinClass()+"%.");
         	}
         	if (isMethodCoverageOk(action)) {
-        		logger.println("Emma: Methods coverage "+action.getMethodCoverage().getPercentage()+"% < "+healthReports.getMinMethod()+"%.");
+        		logger.println("Emma: Methods coverage "+action.getMethodCoverage().getPercentage(advancedSettings.getTestNotMandatory())+"% < "+healthReports.getMinMethod()+"%.");
 			}
         	if (isBlockCoverageOk(action)) {
-        		logger.println("Emma: Blocks coverage "+action.getBlockCoverage().getPercentage()+"% < "+healthReports.getMinBlock()+"%.");
+        		logger.println("Emma: Blocks coverage "+action.getBlockCoverage().getPercentage(advancedSettings.getTestNotMandatory())+"% < "+healthReports.getMinBlock()+"%.");
 			}
         	if (isLineCoverageOk(action)) {
-        		logger.println("Emma: Line coverage "+action.getLineCoverage().getPercentage()+"% < "+healthReports.getMinLine()+"%.");
+        		logger.println("Emma: Line coverage "+action.getLineCoverage().getPercentage(advancedSettings.getTestNotMandatory())+"% < "+healthReports.getMinLine()+"%.");
 			}
 		}
 	}
 
 	private boolean isLineCoverageOk(final EmmaBuildAction action) {
-		return action.getLineCoverage().getPercentage() < healthReports.getMinLine();
+		return action.getLineCoverage().getPercentage(advancedSettings.getTestNotMandatory()) < healthReports.getMinLine();
 	}
 
 	private boolean isBlockCoverageOk(final EmmaBuildAction action) {
-		return action.getBlockCoverage().getPercentage() < healthReports.getMinBlock();
+		return action.getBlockCoverage().getPercentage(advancedSettings.getTestNotMandatory()) < healthReports.getMinBlock();
 	}
 
 	private boolean isClassCoverageOk(final EmmaBuildAction action) {
-		return action.getClassCoverage().getPercentage() < healthReports.getMinClass();
+		return action.getClassCoverage().getPercentage(advancedSettings.getTestNotMandatory()) < healthReports.getMinClass();
 	}
 
 	private boolean isMethodCoverageOk(final EmmaBuildAction action) {
-		return action.getMethodCoverage().getPercentage() < healthReports.getMinMethod();
+		return action.getMethodCoverage().getPercentage(advancedSettings.getTestNotMandatory()) < healthReports.getMinMethod();
 	}
 
     @Override
@@ -297,6 +305,12 @@ public class EmmaPublisher extends Recorder {
                 pub.healthReports.setMaxCondition(80);
             }
             // end ugly hack
+
+            /**
+             * bind AdvancedSettings object to config UI elements
+             */
+            req.bindParameters(pub.advancedSettings, "emmaAdvancedSettings.");
+        
             return pub;
         }
     }

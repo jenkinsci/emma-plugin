@@ -73,4 +73,70 @@
 
         </table>
     </f:entry>
+    
+<!-- /////////////////////////////////////////////////////////////////////// -->
+<!-- [KB]  for the advanced setup support                                    -->
+    <f:section title="${%advancedSection.title}">
+        <f:advanced>
+
+            <f:entry title="${%test_not_mandatory.title}" description="${%test_not_mandatory.description}">
+              <f:checkbox name="emmaAdvancedSettings.testNotMandatory" checked="${instance.advancedSettings.testNotMandatory}"/>
+            </f:entry>
+            
+            <f:entry title="${%report map}" description="${%map.description(rootURL)}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="30%"></th>
+                            <th width="68%">${%mapped_emma_data_item}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>
+                                ${%first_data_item}
+                            </th>
+                            <td>
+                                <f:textbox name="emmaAdvancedSettings.firstDataColumnDescriptor" value="${instance.advancedSettings.firstDataColumnDescriptor}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                ${%second_data_item}
+                            </th>
+                            <td>
+                                <f:textbox name="emmaAdvancedSettings.secondDataColumnDescriptor" value="${instance.advancedSettings.secondDataColumnDescriptor}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                ${%third_data_item}
+                            </th>
+                            <td>
+                                <f:textbox name="emmaAdvancedSettings.thirdDataColumnDescriptor" value="${instance.advancedSettings.thirdDataColumnDescriptor}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                ${%fourth_data_item}
+                            </th>
+                            <td>
+                                <f:textbox name="emmaAdvancedSettings.fourthDataColumnDescriptor" value="${instance.advancedSettings.fourthDataColumnDescriptor}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                ${%fifth_data_item}
+                            </th>
+                            <td>
+                                <f:textbox name="emmaAdvancedSettings.fifthDataColumnDescriptor" value="${instance.advancedSettings.fifthDataColumnDescriptor}" />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </f:entry>
+        </f:advanced>
+    </f:section>
+<!-- /////////////////////////////////////////////////////////////////////// -->
 </j:jelly>

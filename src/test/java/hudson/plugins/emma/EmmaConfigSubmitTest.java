@@ -149,4 +149,57 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         assertEquals(10, thresholds.getMinCondition());
     }    
     
+    //[KB]
+    public void test_new_no_tests_required_flag() throws Exception {
+        WebClient client = new WebClient();
+        client.setThrowExceptionOnFailingStatusCode(false);
+
+        FreeStyleProject fp = createFreeStyleProject();
+        HtmlPage p = client.goTo(fp.getUrl() + "/configure");
+        HtmlForm f = p.getFormByName("config");
+
+        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
+
+        f.getInputByName("emmaAdvancedSettings.testNotMandatory").setChecked(true);
+        submit(f);
+        EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
+        assertEquals(true, publisher.advancedSettings.getTestNotMandatory());
+        EmmaPublisher publisher2 = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
+        assertEquals(true, publisher2.advancedSettings.getTestNotMandatory());
+
+        f.getInputByName("emmaAdvancedSettings.testNotMandatory").setChecked(false);
+        submit(f);
+        EmmaPublisher publisher3 = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
+        assertEquals(false, publisher3.advancedSettings.getTestNotMandatory());
+        EmmaPublisher publisher4 = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
+        assertEquals(false, publisher4.advancedSettings.getTestNotMandatory());
+    }
+
+    //[KB]
+    public void testDataColumnMapping() throws Exception {
+        WebClient client = new WebClient();
+        client.setThrowExceptionOnFailingStatusCode(false);
+
+        FreeStyleProject fp = createFreeStyleProject();
+        HtmlPage p = client.goTo(fp.getUrl() + "/configure");
+        HtmlForm f = p.getFormByName("config");
+
+        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
+        f.getInputByName("emmaAdvancedSettings.firstDataColumnDescriptor").setValueAttribute("test_class");
+        f.getInputByName("emmaAdvancedSettings.secondDataColumnDescriptor").setValueAttribute("test_method");
+        f.getInputByName("emmaAdvancedSettings.thirdDataColumnDescriptor").setValueAttribute("test_block");
+        f.getInputByName("emmaAdvancedSettings.fourthDataColumnDescriptor").setValueAttribute("test_line");
+        f.getInputByName("emmaAdvancedSettings.fifthDataColumnDescriptor").setValueAttribute("test_condition");
+        submit(f);
+
+        EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
+        AdvancedSettings advancedSettings = publisher.advancedSettings;
+        
+        assertEquals("test_class", advancedSettings.getFirstDataColumnDescriptor());
+        assertEquals("test_class", advancedSettings.getFirstDataColumnDescriptor());
+        assertEquals("test_method", advancedSettings.getSecondDataColumnDescriptor());
+        assertEquals("test_block", advancedSettings.getThirdDataColumnDescriptor());
+        assertEquals("test_line", advancedSettings.getFourthDataColumnDescriptor());
+        assertEquals("test_condition", advancedSettings.getFifthDataColumnDescriptor());
+    }
 }

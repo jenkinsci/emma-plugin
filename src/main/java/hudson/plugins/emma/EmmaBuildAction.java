@@ -85,7 +85,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
         int score = 100, percent;
         ArrayList<Localizable> reports = new ArrayList<Localizable>(5);
         if (clazz != null && thresholds.getMaxClass() > 0) {
-            percent = clazz.getPercentage();
+            percent = clazz.getPercentage(getTestNotMandatory());
             if (percent < thresholds.getMaxClass()) {
                 reports.add(Messages._BuildAction_Classes(clazz, percent));
             }
@@ -93,7 +93,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
                                       percent, thresholds.getMaxClass());
         }
         if (method != null && thresholds.getMaxMethod() > 0) {
-            percent = method.getPercentage();
+            percent = method.getPercentage(getTestNotMandatory());
             if (percent < thresholds.getMaxMethod()) {
                 reports.add(Messages._BuildAction_Methods(method, percent));
             }
@@ -101,7 +101,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
                                       percent, thresholds.getMaxMethod());
         }
         if (block != null && thresholds.getMaxBlock() > 0) {
-            percent = block.getPercentage();
+            percent = block.getPercentage(getTestNotMandatory());
             if (percent < thresholds.getMaxBlock()) {
                 reports.add(Messages._BuildAction_Blocks(block, percent));
             }
@@ -109,7 +109,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
                                       percent, thresholds.getMaxBlock());
         }
         if (line != null && thresholds.getMaxLine() > 0) {
-            percent = line.getPercentage();
+            percent = line.getPercentage(getTestNotMandatory());
             if (percent < thresholds.getMaxLine()) {
                 reports.add(Messages._BuildAction_Lines(line, percent));
             }
@@ -117,7 +117,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
                                       percent, thresholds.getMaxLine());
         }
         if (condition != null && thresholds.getMaxCondition() > 0) {
-            percent = condition.getPercentage();
+            percent = condition.getPercentage(getTestNotMandatory());
             if (percent < thresholds.getMaxCondition()) {
                 reports.add(Messages._BuildAction_Conditions(condition, percent));
             }

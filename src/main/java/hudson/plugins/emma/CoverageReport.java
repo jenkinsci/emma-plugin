@@ -99,4 +99,54 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
         //digester.addBeanPropertySetter("*/status","statusMessage");
         return digester;
     }
+
+////////////////////////////////////////////////////////////////////////////////
+//[KB]  overridden interface implementation for the advanced setup support
+//
+//      root object for reporting 
+//          -> get config data from action object
+//              -> read from build.xml???
+    
+//  @Override
+    public boolean getTestNotMandatory(){
+       return action.getTestNotMandatory();
+    }
+    
+//  @Override
+    public String getFirstDataColumnDescriptor()
+    {
+        //return getLastAction().getFirstDataColumnDescriptor();
+        return action.getFirstDataColumnDescriptor();
+    }
+
+//  @Override
+    public String getSecondDataColumnDescriptor()
+    {
+        //return getLastAction().getFirstDataColumnDescriptor();
+        return action.getSecondDataColumnDescriptor();
+    }
+
+//  @Override
+    public String getThirdDataColumnDescriptor()
+    {
+        //return getLastAction().getFirstDataColumnDescriptor();
+        return action.getThirdDataColumnDescriptor();
+    }
+
+//  @Override
+    public String getFourthDataColumnDescriptor()
+    {
+        //return getLastAction().getFirstDataColumnDescriptor();
+        return action.getFourthDataColumnDescriptor();
+    }
+
+//  @Override
+    public String getFifthDataColumnDescriptor()
+    {
+        //return getLastAction().getFirstDataColumnDescriptor();
+        return action.getFifthDataColumnDescriptor();
+    }
+//
+////////////////////////////////////////////////////////////////////////////////
+
 }

@@ -1,6 +1,7 @@
 package hudson.plugins.emma;
 
 import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import hudson.util.IOException2;
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
@@ -54,7 +55,7 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
     }
 
     @Override
-    public AbstractBuild<?,?> getBuild() {
+    public Run<?,?> getBuild() {
         return action.owner;
     }
 

@@ -5,6 +5,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.HealthReport;
 import hudson.model.HealthReportingAction;
 import hudson.model.Result;
+import hudson.model.Run;
 import hudson.util.IOException2;
 import hudson.util.NullStream;
 import hudson.util.StreamTaskListener;
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
  */
 public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> implements HealthReportingAction, StaplerProxy {
 	
-    public final AbstractBuild<?,?> owner;
+    public final Run<?,?> owner;
 
     private transient WeakReference<CoverageReport> report;
 
@@ -47,7 +48,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
      */
     private final EmmaHealthReportThresholds thresholds;
 
-    public EmmaBuildAction(AbstractBuild<?,?> owner, Rule rule, Ratio classCoverage, Ratio methodCoverage, Ratio blockCoverage, Ratio lineCoverage, Ratio conditionCoverage, EmmaHealthReportThresholds thresholds) {
+    public EmmaBuildAction(Run<?,?> owner, Rule rule, Ratio classCoverage, Ratio methodCoverage, Ratio blockCoverage, Ratio lineCoverage, Ratio conditionCoverage, EmmaHealthReportThresholds thresholds) {
         this.owner = owner;
         this.rule = rule;
         this.clazz = classCoverage;
@@ -148,7 +149,7 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
     }
 
     @Override
-    public AbstractBuild<?,?> getBuild() {
+    public Run<?,?> getBuild() {
         return owner;
     }
     
@@ -212,8 +213,8 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
     /**
      * Gets the previous {@link EmmaBuildAction} of the given build.
      */
-    /*package*/ static EmmaBuildAction getPreviousResult(AbstractBuild<?,?> start) {
-        AbstractBuild<?,?> b = start;
+    /*package*/ static EmmaBuildAction getPreviousResult(Run<?,?> start) {
+        Run<?,?> b = start;
         while(true) {
             b = b.getPreviousBuild();
             if(b==null)
@@ -233,14 +234,14 @@ public final class EmmaBuildAction extends CoverageObject<EmmaBuildAction> imple
      * @throws IOException
      *      if failed to parse the file.
      */
-    public static EmmaBuildAction load(AbstractBuild<?,?> owner, Rule rule, EmmaHealthReportThresholds thresholds, FilePath... files) throws IOException {
+    public static EmmaBuildAction load(Run<?,?> owner, Rule rule, EmmaHealthReportThresholds thresholds, FilePath... files) throws IOException, InterruptedException {
         Ratio ratios[] = null;
         for (FilePath f: files ) {
             InputStream in = f.read();
             try {
                 ratios = loadRatios(in, ratios);
             } catch (XmlPullParserException e) {
-                throw new IOException2("Failed to parse " + f, e);
+                throw new IOException("Failed to parse " + f, e);
             } finally {
                 in.close();
             }

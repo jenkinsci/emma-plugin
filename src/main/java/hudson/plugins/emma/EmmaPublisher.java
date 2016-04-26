@@ -12,6 +12,8 @@ import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Result;
+import hudson.model.Run;
+import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Publisher;
@@ -26,13 +28,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import jenkins.tasks.SimpleBuildStep;
 
 /**
  * {@link Publisher} that captures Emma coverage reports.
  *
  * @author Kohsuke Kawaguchi
  */
-public class EmmaPublisher extends Recorder {
+public class EmmaPublisher extends Recorder implements SimpleBuildStep {
 
     /**
      * Relative path to the Emma XML file inside the workspace.
@@ -104,79 +107,15 @@ public class EmmaPublisher extends Recorder {
 
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        final PrintStream logger = listener.getLogger();
-        
-        // Make sure Emma actually ran
-        if (build instanceof MavenBuild) {
-            MavenBuild mavenBuild = (MavenBuild) build;
-            if (!didEmmaRun(mavenBuild)) {
-                listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
-                return true;
-            }
-        } else if (build instanceof MavenModuleSetBuild) {
-            MavenModuleSetBuild moduleSetBuild = (MavenModuleSetBuild) build;
-            if (!didEmmaRun(moduleSetBuild.getModuleLastBuilds().values())) {
-                listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
-                return true;
-            }
-        }       
-        EnvVars env = build.getEnvironment(listener);
-        
-        env.overrideAll(build.getBuildVariables());
-        includes = env.expand(includes);
-
-        FilePath[] reports;
-        if (includes == null || includes.trim().length() == 0) {
-            logger.println("Emma: looking for coverage reports in the entire workspace: " + build.getWorkspace().getRemote());
-            reports = locateCoverageReports(build.getWorkspace(), "**/emma/coverage.xml");
-        } else {
-            logger.println("Emma: looking for coverage reports in the provided path: " + includes);
-            reports = locateCoverageReports(build.getWorkspace(), includes);
-        }
-
-        if (reports.length == 0) {
-            if (build.getResult().isWorseThan(Result.UNSTABLE)) {
-                return true;
-            }
-
-            logger.println("Emma: no coverage files found in workspace. Was any report generated?");
-            build.setResult(Result.FAILURE);
+        try{
+            perform(build, build.getWorkspace(), launcher, listener);
             return true;
-        } else {
-            String found = "";
-            for (FilePath f : reports) {
-                found += "\n          " + f.getRemote();
-            }
-            logger.println("Emma: found " + reports.length + " report files: " + found);
+        } catch(Exception ex){
+            return false;
         }
-
-        FilePath emmafolder = new FilePath(getEmmaReport(build));
-        saveCoverageReports(emmafolder, reports);
-        logger.println("Emma: stored " + reports.length + " report files in the build folder: " + emmafolder);
-
-        final EmmaBuildAction action = EmmaBuildAction.load(build, rule, healthReports, reports);
-
-        action.applySettings(advancedSettings);
-        
-        logger.println("Emma: " + action.getBuildHealth().getDescription());
-        
-        build.getActions().add(action);
-
-        final CoverageReport result = action.getResult();
-        if (result == null) {
-            logger.println("Emma: Could not parse coverage results. Setting Build to failure.");
-            build.setResult(Result.FAILURE);
-        } else if (result.isFailed()) {
-            logger.println("Emma: code coverage enforcement failed. Setting Build to unstable.");
-            build.setResult(Result.UNSTABLE);
-        }
-        
-        checkThreshold(build, logger, env, action);
-
-        return true;
     }
 
-	private void checkThreshold(AbstractBuild<?, ?> build,
+	private void checkThreshold(Run<?, ?> build,
 			final PrintStream logger, EnvVars env, final EmmaBuildAction action) {
 		if (useThreshold) {
         	if (isMethodCoverageOk(action) 
@@ -230,7 +169,7 @@ public class EmmaPublisher extends Recorder {
     /**
      * Gets the directory to store report files
      */
-    static File getEmmaReport(AbstractBuild<?, ?> build) {
+    static File getEmmaReport(Run<?, ?> build) {
         return new File(build.getRootDir(), "emma");
     }
 
@@ -259,6 +198,78 @@ public class EmmaPublisher extends Recorder {
     
     @Extension
     public static final BuildStepDescriptor<Publisher> DESCRIPTOR = new DescriptorImpl();
+
+    @Override
+    public void perform(Run<?, ?> build, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
+        final PrintStream logger = listener.getLogger();
+        
+        // Make sure Emma actually ran
+        if (build instanceof MavenBuild) {
+            MavenBuild mavenBuild = (MavenBuild) build;
+            if (!didEmmaRun(mavenBuild)) {
+                listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
+                return;
+            }
+        } else if (build instanceof MavenModuleSetBuild) {
+            MavenModuleSetBuild moduleSetBuild = (MavenModuleSetBuild) build;
+            if (!didEmmaRun(moduleSetBuild.getModuleLastBuilds().values())) {
+                listener.getLogger().println("Skipping Emma coverage report as mojo did not run.");
+                return;
+            }
+        }       
+        EnvVars env = build.getEnvironment(listener);
+        
+        //env.overrideAll(build.getBuildVariables());
+        includes = env.expand(includes);
+
+        FilePath[] reports;
+        if (includes == null || includes.trim().length() == 0) {
+            logger.println("Emma: looking for coverage reports in the entire workspace: " + workspace.getRemote());
+            reports = locateCoverageReports(workspace, "**/emma/coverage.xml");
+        } else {
+            logger.println("Emma: looking for coverage reports in the provided path: " + includes);
+            reports = locateCoverageReports(workspace, includes);
+        }
+
+        if (reports.length == 0) {
+            if (build.getResult().isWorseThan(Result.UNSTABLE)) {
+                return;
+            }
+
+            logger.println("Emma: no coverage files found in workspace. Was any report generated?");
+            build.setResult(Result.FAILURE);
+            return;
+        } else {
+            String found = "";
+            for (FilePath f : reports) {
+                found += "\n          " + f.getRemote();
+            }
+            logger.println("Emma: found " + reports.length + " report files: " + found);
+        }
+
+        FilePath emmafolder = new FilePath(getEmmaReport(build));
+        saveCoverageReports(emmafolder, reports);
+        logger.println("Emma: stored " + reports.length + " report files in the build folder: " + emmafolder);
+
+        final EmmaBuildAction action = EmmaBuildAction.load(build, rule, healthReports, reports);
+
+        action.applySettings(advancedSettings);
+        
+        logger.println("Emma: " + action.getBuildHealth().getDescription());
+        
+        build.getActions().add(action);
+
+        final CoverageReport result = action.getResult();
+        if (result == null) {
+            logger.println("Emma: Could not parse coverage results. Setting Build to failure.");
+            build.setResult(Result.FAILURE);
+        } else if (result.isFailed()) {
+            logger.println("Emma: code coverage enforcement failed. Setting Build to unstable.");
+            build.setResult(Result.UNSTABLE);
+        }
+        
+        checkThreshold(build, logger, env, action);
+    }
 
     public static class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 

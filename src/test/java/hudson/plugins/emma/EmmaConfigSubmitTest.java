@@ -16,10 +16,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         // includes is empty
         submit(f);
 
@@ -33,10 +35,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         f.getInputByName("emma.includes").setValueAttribute("**/*");
         submit(f);
 
@@ -50,10 +54,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         f.getInputByName("emmaHealthReports.maxClass").setValueAttribute("");
         f.getInputByName("emmaHealthReports.maxMethod").setValueAttribute("");
         f.getInputByName("emmaHealthReports.maxBlock").setValueAttribute("");
@@ -76,10 +82,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         f.getInputByName("emmaHealthReports.minClass").setValueAttribute("");
         f.getInputByName("emmaHealthReports.minMethod").setValueAttribute("");
         f.getInputByName("emmaHealthReports.minBlock").setValueAttribute("");
@@ -102,10 +110,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         f.getInputByName("emmaHealthReports.maxClass").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.maxMethod").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.maxBlock").setValueAttribute("10");
@@ -128,10 +138,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         f.getInputByName("emmaHealthReports.minClass").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.minMethod").setValueAttribute("10");
         f.getInputByName("emmaHealthReports.minBlock").setValueAttribute("10");
@@ -154,10 +166,11 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
-
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
 
         f.getInputByName("emmaAdvancedSettings.testNotMandatory").setChecked(true);
         submit(f);
@@ -179,10 +192,12 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         client.setThrowExceptionOnFailingStatusCode(false);
 
         FreeStyleProject fp = createFreeStyleProject();
+		EmmaPublisher emma = new EmmaPublisher();
+		fp.getPublishersList().add(emma);
+		
         HtmlPage p = client.goTo(fp.getUrl() + "/configure");
         HtmlForm f = p.getFormByName("config");
 
-        f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
         f.getInputByName("emmaAdvancedSettings.firstDataColumnDescriptor").setValueAttribute("test_class");
         f.getInputByName("emmaAdvancedSettings.secondDataColumnDescriptor").setValueAttribute("test_method");
         f.getInputByName("emmaAdvancedSettings.thirdDataColumnDescriptor").setValueAttribute("test_block");

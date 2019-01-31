@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>emma</artifactId>
-  <version>1.30</version>
+  <version>1.31</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Emma plugin</name>

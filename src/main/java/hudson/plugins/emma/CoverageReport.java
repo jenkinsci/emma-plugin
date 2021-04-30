@@ -2,9 +2,10 @@ package hudson.plugins.emma;
 
 import hudson.model.AbstractBuild;
 import hudson.util.IOException2;
-import org.apache.commons.digester.Digester;
+import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,7 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
         this(action);
         for (InputStream is: xmlReports) {
           try {
-            createDigester().parse(is);
+            createDigester(!Boolean.getBoolean(this.getClass().getName() + ".UNSAFE")).parse(is);
           } catch (SAXException e) {
               throw new IOException2("Failed to parse XML",e);
           }
@@ -37,7 +38,7 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
     public CoverageReport(EmmaBuildAction action, File xmlReport) throws IOException {
         this(action);
         try {
-            createDigester().parse(xmlReport);
+            createDigester(!Boolean.getBoolean(this.getClass().getName() + ".UNSAFE")).parse(xmlReport);
         } catch (SAXException e) {
             throw new IOException2("Failed to parse "+xmlReport,e);
         }
@@ -61,8 +62,19 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
     /**
      * Creates a configured {@link Digester} instance for parsing report XML.
      */
-    private Digester createDigester() {
+    private Digester createDigester(boolean secure) throws SAXException {
         Digester digester = new Digester();
+        if (secure) {
+            digester.setXIncludeAware(false);
+            try {
+                digester.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+                digester.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                digester.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+                digester.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            } catch (ParserConfigurationException ex) {
+                throw new SAXException("Failed to securely configure xml digester parser", ex);
+            }
+        }
         digester.setClassLoader(getClass().getClassLoader());
 
         digester.push(this);

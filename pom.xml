@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>emma</artifactId>
-  <version>1.30</version>
+  <version>1.31-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Emma plugin</name>
@@ -38,6 +38,7 @@
   <scm>
     <connection>scm:git:git://github.com/jenkinsci/emma-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/emma-plugin.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>

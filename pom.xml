@@ -193,6 +193,19 @@
           </lifecycleMappingMetadata>
         </configuration>
       </plugin>
+      <plugin>
+        <!-- TODO: remove once project configuration is updated with recent plugin-pom -->
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <mavenExecutorId>forked-path</mavenExecutorId>
+          <useReleaseProfile>false</useReleaseProfile>
+          <preparationGoals>clean install</preparationGoals>
+          <goals>deploy</goals>
+          <arguments>${arguments}</arguments>
+          <releaseProfiles>jenkins-release,${releaseProfiles}</releaseProfiles>
+        </configuration>
+      </plugin>
     </plugins>
   </pluginManagement>
   </build>

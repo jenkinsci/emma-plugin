@@ -16,7 +16,7 @@ public class EmmaPublisherTest extends AbstractEmmaTestBase {
 	public void testLocateReports() throws Exception {
 
 		// Create a temporary workspace in the system 
-		File w = Files.createTempDirectory("workspace" + ".test").toFile();
+		final File w = Files.createTempDirectory("workspace.test").toFile();
 		w.deleteOnExit();
 		FilePath workspace = new FilePath(w);
 

@@ -5,6 +5,7 @@ import hudson.FilePath;
 import junit.framework.Assert;
 
 import java.io.File;
+import java.nio.file.Files;
 
 /**
  * 
@@ -15,9 +16,7 @@ public class EmmaPublisherTest extends AbstractEmmaTestBase {
 	public void testLocateReports() throws Exception {
 
 		// Create a temporary workspace in the system 
-		File w = File.createTempFile("workspace", ".test");
-		w.delete();
-		w.mkdir();
+		File w = Files.createTempDirectory("workspace" + ".test").toFile();
 		w.deleteOnExit();
 		FilePath workspace = new FilePath(w);
 

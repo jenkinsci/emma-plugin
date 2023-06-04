@@ -1,7 +1,7 @@
 package hudson.plugins.emma;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.htmlunit.html.HtmlForm;
+import org.htmlunit.html.HtmlPage;
 import hudson.model.FreeStyleProject;
 import org.jvnet.hudson.test.HudsonTestCase;
 
@@ -37,7 +37,7 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         HtmlForm f = p.getFormByName("config");
 
         f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
-        f.getInputByName("emma.includes").setValueAttribute("**/*");
+        f.getInputByName("emma.includes").setValue("**/*");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -54,11 +54,11 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         HtmlForm f = p.getFormByName("config");
 
         f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
-        f.getInputByName("emmaHealthReports.maxClass").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.maxMethod").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.maxBlock").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.maxLine").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.maxCondition").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.maxClass").setValue("");
+        f.getInputByName("emmaHealthReports.maxMethod").setValue("");
+        f.getInputByName("emmaHealthReports.maxBlock").setValue("");
+        f.getInputByName("emmaHealthReports.maxLine").setValue("");
+        f.getInputByName("emmaHealthReports.maxCondition").setValue("");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -80,11 +80,11 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         HtmlForm f = p.getFormByName("config");
 
         f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
-        f.getInputByName("emmaHealthReports.minClass").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.minMethod").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.minBlock").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.minLine").setValueAttribute("");
-        f.getInputByName("emmaHealthReports.minCondition").setValueAttribute("");
+        f.getInputByName("emmaHealthReports.minClass").setValue("");
+        f.getInputByName("emmaHealthReports.minMethod").setValue("");
+        f.getInputByName("emmaHealthReports.minBlock").setValue("");
+        f.getInputByName("emmaHealthReports.minLine").setValue("");
+        f.getInputByName("emmaHealthReports.minCondition").setValue("");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -106,11 +106,11 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         HtmlForm f = p.getFormByName("config");
 
         f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
-        f.getInputByName("emmaHealthReports.maxClass").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.maxMethod").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.maxBlock").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.maxLine").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.maxCondition").setValueAttribute("10");
+        f.getInputByName("emmaHealthReports.maxClass").setValue("10");
+        f.getInputByName("emmaHealthReports.maxMethod").setValue("10");
+        f.getInputByName("emmaHealthReports.maxBlock").setValue("10");
+        f.getInputByName("emmaHealthReports.maxLine").setValue("10");
+        f.getInputByName("emmaHealthReports.maxCondition").setValue("10");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -132,11 +132,11 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         HtmlForm f = p.getFormByName("config");
 
         f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
-        f.getInputByName("emmaHealthReports.minClass").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.minMethod").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.minBlock").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.minLine").setValueAttribute("10");
-        f.getInputByName("emmaHealthReports.minCondition").setValueAttribute("10");
+        f.getInputByName("emmaHealthReports.minClass").setValue("10");
+        f.getInputByName("emmaHealthReports.minMethod").setValue("10");
+        f.getInputByName("emmaHealthReports.minBlock").setValue("10");
+        f.getInputByName("emmaHealthReports.minLine").setValue("10");
+        f.getInputByName("emmaHealthReports.minCondition").setValue("10");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
@@ -183,11 +183,11 @@ public class EmmaConfigSubmitTest extends HudsonTestCase {
         HtmlForm f = p.getFormByName("config");
 
         f.getInputByName("hudson-plugins-emma-EmmaPublisher").setChecked(true);
-        f.getInputByName("emmaAdvancedSettings.firstDataColumnDescriptor").setValueAttribute("test_class");
-        f.getInputByName("emmaAdvancedSettings.secondDataColumnDescriptor").setValueAttribute("test_method");
-        f.getInputByName("emmaAdvancedSettings.thirdDataColumnDescriptor").setValueAttribute("test_block");
-        f.getInputByName("emmaAdvancedSettings.fourthDataColumnDescriptor").setValueAttribute("test_line");
-        f.getInputByName("emmaAdvancedSettings.fifthDataColumnDescriptor").setValueAttribute("test_condition");
+        f.getInputByName("emmaAdvancedSettings.firstDataColumnDescriptor").setValue("test_class");
+        f.getInputByName("emmaAdvancedSettings.secondDataColumnDescriptor").setValue("test_method");
+        f.getInputByName("emmaAdvancedSettings.thirdDataColumnDescriptor").setValue("test_block");
+        f.getInputByName("emmaAdvancedSettings.fourthDataColumnDescriptor").setValue("test_line");
+        f.getInputByName("emmaAdvancedSettings.fifthDataColumnDescriptor").setValue("test_condition");
         submit(f);
 
         EmmaPublisher publisher = (EmmaPublisher) fp.getPublisher(EmmaPublisher.DESCRIPTOR);
